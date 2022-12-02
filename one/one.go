@@ -18,6 +18,9 @@ type Elf struct {
 }
 
 func One() {
+	fmt.Println()
+	fmt.Println("Day One")
+
 	content, err := ioutil.ReadFile(challengeOneInput)
 	if err != nil {
 		log.Fatalf("failed to read file: %s | error: %e", challengeOneInput, err)
