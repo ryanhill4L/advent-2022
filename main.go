@@ -1,7 +1,7 @@
 package main
 
 import (
-	"advent-2022/two"
+	"advent-2022/three"
 )
 
 func main() {
@@ -9,5 +9,8 @@ func main() {
 	// one.One()
 
 	// Day Two
-	two.Two()
+	// two.Two()
+
+	// Day Three
+	three.Three()
 }
