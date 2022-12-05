@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	challengeOneInput = "one/one_01_input.txt"
+	challengeOneInput = "1/one_01_input.txt"
 )
 
 type Elf struct {

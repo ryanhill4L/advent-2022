@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	challengeTwoInput = "two/two_02_input.txt"
+	challengeTwoInput = "2/two_02_input.txt"
 
 	RockPoints     = 1
 	PaperPoints    = 2

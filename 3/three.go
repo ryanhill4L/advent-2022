@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	challengeThreeInput = "three/three_03_input.txt"
+	challengeThreeInput = "3/three_03_input.txt"
 
 	priority = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 )
