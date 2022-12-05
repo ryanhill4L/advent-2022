@@ -43,13 +43,13 @@ func Two() {
 
 	// Part Two
 	var neededPoints uint
+	newRounds := ToFullRound(rounds)
+
+	for _, round := range newRounds {
+		neededPoints = neededPoints + round.GetRoundPoints()
+	}
 
 	fmt.Printf("The outcome of the decrypted strategy guide is %v points\n", neededPoints)
-}
-
-type Round struct {
-	Opponent uint
-	Self     uint
 }
 
 func parseTextToStrategy(in string) (resp []Round) {
@@ -68,6 +68,26 @@ func parseTextToStrategy(in string) (resp []Round) {
 	}
 
 	return resp
+}
+
+func StringToSelection(in string) uint {
+	switch in {
+	case "A", "X":
+		return RockPoints
+	case "B", "Y":
+		return PaperPoints
+	case "C", "Z":
+		return ScissorsPoints
+	default:
+		log.Fatalf("selection input invalid %s", in)
+
+		return 0
+	}
+}
+
+type Round struct {
+	Opponent uint
+	Self     uint
 }
 
 func (r Round) GetRoundPoints() uint {
@@ -126,16 +146,58 @@ func (r Round) GetOutcome() uint {
 	}
 }
 
-func StringToSelection(in string) uint {
-	switch in {
-	case "A", "X":
-		return RockPoints
-	case "B", "Y":
-		return PaperPoints
-	case "C", "Z":
-		return ScissorsPoints
+func ToFullRound(in []Round) []FullRound {
+	resp := make([]FullRound, len(in))
+
+	for i, round := range in {
+		resp[i] = FullRound{
+			Opponent: round.Opponent,
+			Outcome:  round.Self,
+		}
+
+		resp[i].GetSelfFromOutcome()
+	}
+
+	return resp
+}
+
+type FullRound struct {
+	Opponent uint
+	Self     uint
+	Outcome  uint
+}
+
+func (f *FullRound) GetSelfFromOutcome() {
+	switch f.Outcome {
+	case 1: // Lose
+		f.Self = (f.Opponent - 1) % 3
+		if f.Self == 0 {
+			f.Self = 3
+		}
+	case 2: // Draw
+		f.Self = f.Opponent
+	case 3: // Win
+		f.Self = (f.Opponent + 1) % 3
+		if f.Self == 0 {
+			f.Self = 1
+		}
+	}
+}
+
+func (f FullRound) GetRoundPoints() uint {
+	return f.Self + f.OutcomeToPoints()
+}
+
+func (f FullRound) OutcomeToPoints() uint {
+	switch f.Outcome {
+	case 1: // Lose
+		return 0
+	case 2: // Draw
+		return 3
+	case 3: // Win
+		return 6
 	default:
-		log.Fatalf("selection input invalid %s", in)
+		log.Fatal("returned not possible outcome")
 
 		return 0
 	}
